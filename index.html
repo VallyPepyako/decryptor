@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Decrypter for Snowden</title>
+  <style>
+    .section {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+    .container {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+    }
+    
+    .button {
+      padding: 0.5rem 1rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+    .message {
+      border: 1px solid grey;
+      resize: none;
+      padding: 0.75rem;
+      width: calc(50% - 2rem);
+      height: 500px;
+      font-size: 1rem;
+      border-radius: 5px;
+    }
+    .result {
+      border: 1px solid grey;
+      width: calc(50% - 2rem);
+      max-height: 500px;
+      overflow-y: scroll;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <section class="section">
+    <h1>Welcome Mr. Snowden</h1>
+    <button class="button button-js">to decrypt</button>
+    <div class="container">
+      <textarea name="text" placeholder="Please put your encrypted message here and push decrypt button" id="textArea" class="message message-js"></textarea>
+      <div class="result result-js"></div>
+    </div>
+  </section>
+  
+  <script>
+    let button = document.querySelector(".button-js");
+    let textArea = document.querySelector("#textArea");
+    let placeForResult = document.querySelector(".result-js");
+
+    button.addEventListener('click', function() {
+      let message = textArea.value;
+      let result = snowdenDecrypt(message)
+      placeForResult.innerHTML = ''
+      placeForResult.append(...result)
+    });
+    function snowdenDecrypt(message) {
+      let decryptedMessage = []
+      for (i = 0; i < message.length; i++) {
+        if (message[i] == message[i + 1]) {
+          i++
+        } else {
+          decryptedMessage.push(message[i])
+        }
+      }
+      if (decryptedMessage.length === message.length) {
+        return decryptedMessage;
+      } else {
+        return snowdenDecrypt(decryptedMessage)
+      }
+    }
+  </script>
+</body>
+</html>
+
